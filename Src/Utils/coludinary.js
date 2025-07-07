@@ -35,9 +35,9 @@ async function uplodFileOnCloud(localFilePath) {
         });
 
         console.log(autoCropUrl);
-        return uploadResult
+        return uploadResult;
     } catch (error) {
-        fs.unlink(localFilePath) // remove the locally stored temp file :: UPLOAD FAILED
-        print(`Error While uploading the file : ${error.message}`)
+        fs.unlink(localFilePath); // remove the locally stored temp file :: UPLOAD FAILED
+        print(`Error While uploading the file : ${error.message}`);
     }
 }
