@@ -22,4 +22,19 @@ app.use(express.urlencoded({
 app.use(express.static('public')); // serve static files from the 'public' directory
 app.use(cookieParser()); // parse cookies from the request headers
 
+
+// routes import 
+import userRouter from './Routes/user.routes.js';
+
+
+
+
+
+// rooutes declaration
+app.use("/api/v1/users",userRouter)
+
+
+
+
+
 export default app;
