@@ -18,6 +18,10 @@ const userSchema = new Schema(
             index: true,
             lowercase: true,
         },
+        email : {
+            type: String,
+            required: true,
+        },
         avatar: {
             type: String, // clodinary Url
             required: true,

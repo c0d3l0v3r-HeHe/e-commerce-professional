@@ -12,16 +12,11 @@ const registerUser = AsyncHandler(async (req, res) => {
     
     
     // validation  -- not empty
-    if(
-        [fullName,email,username,password].some((field)=>{
-            field?.trim() ===""
-        })
-    ){
-        throw new ApiError(400,"All Fields are necessary !!!");
-    }
-
+    if ([fullName, email, username, password].some(field => !field?.trim())) {
+    throw new ApiError(400, "All Fields are necessary !!!");
+}
     // check if already exists : username and email
-    const existingUser = User.findOne({
+    const existingUser = await User.findOne({
         $or : [{username},{email}]
     })
 
@@ -57,17 +52,17 @@ const registerUser = AsyncHandler(async (req, res) => {
 
     // create the User Object
     // push the User to the db
-    user = await User.create({
-        fullName,
+    const user = await User.create({
+        fullname : fullName,
         avatar : avatar.url,
         coverImage:cover?.url || "",
         email,
         password,
         username : username.toLowerCase()
     })
-    
+    console.log("got user successfully")
     // return the information added to the database remvoe password anmd refresh token field
-    const createdUser = User.findById(user._id).select("-password -refreshToken")
+    const createdUser = await User.findById(user._id).select("-password -refreshToken")
     if(!createdUser){
         throw new ApiError(500,"Something went wrong while Making the user in DB");
     }

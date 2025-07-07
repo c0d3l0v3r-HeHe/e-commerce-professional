@@ -7,7 +7,7 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET, // Click 'View API Keys' above to copy your API secret
 });
 
-async function uplodFileOnCloud(localFilePath) {
+export async function uplodFileOnCloud(localFilePath) {
     // Upload an image
     try {
         const uploadResult = await cloudinary.uploader
@@ -35,9 +35,10 @@ async function uplodFileOnCloud(localFilePath) {
         });
 
         console.log(autoCropUrl);
+        fs.unlinkSync(localFilePath); // remove the locally stored temp file :: UPLOAD FAILED
         return uploadResult;
     } catch (error) {
-        fs.unlink(localFilePath); // remove the locally stored temp file :: UPLOAD FAILED
+        fs.unlinkSync(localFilePath); // remove the locally stored temp file :: UPLOAD FAILED
         print(`Error While uploading the file : ${error.message}`);
     }
 }
